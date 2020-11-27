@@ -21,22 +21,22 @@ namespace ProjetoPimBlockChain {
 
 
         private void tsbtnSalvar_Click(object sender, EventArgs e) {
-            strSql = "insert into CadastroCliente (Id, Nome, CEP, Endereco, Bairro, Numero, Complemento, Telefone, Email, Estado, Cidade, CarteiraBTC) values (@Id, @Nome, @CEP, @Endereco, @Bairro, @Numero, @Complemento, @Telefone, @Email, @Estado, @Cidade, @CarteiraBTC)";
+            strSql = "insert into dbo.userRegister (nome, cep, endereco, bairro, numero, complemento, telefone, email, estado, cidade, carteiraBTC) values (@nome, @cep, @endereco, @bairro, @numero, @complemento, @telefone, @email, @estado, @cidade, @carteiraBTC)";
             sqlConnection = new SqlConnection(strConnection);
             SqlCommand command = new SqlCommand(strSql, sqlConnection);
 
-            command.Parameters.Add("@Id", SqlDbType.Int).Value = txtId.Text;
-            command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = txtNome.Text;
-            command.Parameters.Add("@CEP", SqlDbType.VarChar).Value = mtxtCep.Text;
-            command.Parameters.Add("@Endereco", SqlDbType.VarChar).Value = txtEndereco.Text;
-            command.Parameters.Add("@Bairro", SqlDbType.VarChar).Value = txtBairro.Text;
-            command.Parameters.Add("@Numero", SqlDbType.VarChar).Value = txtNumero.Text;
-            command.Parameters.Add("@Complemento", SqlDbType.VarChar).Value = txtComplemento.Text;
-            command.Parameters.Add("@Telefone", SqlDbType.VarChar).Value = mtxtTelefone.Text;
-            command.Parameters.Add("@Email", SqlDbType.VarChar).Value = txtEmail.Text;
-            command.Parameters.Add("@Estado", SqlDbType.VarChar).Value = txtEstado.Text;
-            command.Parameters.Add("@Cidade", SqlDbType.VarChar).Value = txtCidade.Text;
-            command.Parameters.Add("@CarteiraBTC", SqlDbType.VarChar).Value = txtCarteira.Text;
+            /*command.Parameters.Add("@id", SqlDbType.Int).Value = txtId.Text;*/
+            command.Parameters.Add("@nome", SqlDbType.VarChar).Value = txtNome.Text;
+            command.Parameters.Add("@cep", SqlDbType.VarChar).Value = mtxtCep.Text;
+            command.Parameters.Add("@endereco", SqlDbType.VarChar).Value = txtEndereco.Text;
+            command.Parameters.Add("@bairro", SqlDbType.VarChar).Value = txtBairro.Text;
+            command.Parameters.Add("@numero", SqlDbType.VarChar).Value = txtNumero.Text;
+            command.Parameters.Add("@complemento", SqlDbType.VarChar).Value = txtComplemento.Text;
+            command.Parameters.Add("@telefone", SqlDbType.VarChar).Value = mtxtTelefone.Text;
+            command.Parameters.Add("@email", SqlDbType.VarChar).Value = txtEmail.Text;
+            command.Parameters.Add("@estado", SqlDbType.VarChar).Value = txtEstado.Text;
+            command.Parameters.Add("@cidade", SqlDbType.VarChar).Value = txtCidade.Text;
+            command.Parameters.Add("@carteiraBTC", SqlDbType.VarChar).Value = txtCarteira.Text;
 
             try {
                 sqlConnection.Open();
@@ -83,11 +83,11 @@ namespace ProjetoPimBlockChain {
         }
 
         private void tsbtnPesquisar_Click(object sender, EventArgs e) {
-            strSql = "select * from CadastroCliente where Id=@Id";
+            strSql = "select * from dbo.userRegister where id=@id";
             sqlConnection = new SqlConnection(strConnection);
             SqlCommand command = new SqlCommand(strSql, sqlConnection);
 
-            command.Parameters.Add("@Id", SqlDbType.Int).Value = tstxtBuscar.Text;
+            command.Parameters.Add("@id", SqlDbType.Int).Value = tstxtBuscar.Text;
 
             try {
                 if (tstxtBuscar.Text == string.Empty) {
@@ -101,18 +101,18 @@ namespace ProjetoPimBlockChain {
                     throw new Exception("Este ID não esta cadastrado no sistema!");
                 }
 
-                txtId.Text = Convert.ToString(dataReader["Id"]);
-                txtNome.Text = Convert.ToString(dataReader["Nome"]);
-                mtxtCep.Text = Convert.ToString(dataReader["CEP"]);
-                txtEndereco.Text = Convert.ToString(dataReader["Endereco"]);
-                txtBairro.Text = Convert.ToString(dataReader["Bairro"]);
-                txtNumero.Text = Convert.ToString(dataReader["Numero"]);
-                txtComplemento.Text = Convert.ToString(dataReader["Complemento"]);
-                mtxtTelefone.Text = Convert.ToString(dataReader["Telefone"]);
-                txtEmail.Text = Convert.ToString(dataReader["Email"]);
-                txtEstado.Text = Convert.ToString(dataReader["Estado"]);
-                txtCidade.Text = Convert.ToString(dataReader["Cidade"]);
-                txtCarteira.Text = Convert.ToString(dataReader["CarteiraBTC"]);
+                txtId.Text = Convert.ToString(dataReader["id"]);
+                txtNome.Text = Convert.ToString(dataReader["nome"]);
+                mtxtCep.Text = Convert.ToString(dataReader["cep"]);
+                txtEndereco.Text = Convert.ToString(dataReader["endereco"]);
+                txtBairro.Text = Convert.ToString(dataReader["bairro"]);
+                txtNumero.Text = Convert.ToString(dataReader["numero"]);
+                txtComplemento.Text = Convert.ToString(dataReader["complemento"]);
+                mtxtTelefone.Text = Convert.ToString(dataReader["telefone"]);
+                txtEmail.Text = Convert.ToString(dataReader["email"]);
+                txtEstado.Text = Convert.ToString(dataReader["estado"]);
+                txtCidade.Text = Convert.ToString(dataReader["cidade"]);
+                txtCarteira.Text = Convert.ToString(dataReader["carteiraBTC"]);
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
@@ -120,30 +120,30 @@ namespace ProjetoPimBlockChain {
             finally {
                 sqlConnection.Close();
             }
-
-
+            txtId.Enabled = false;
+            txtId.Text = "";
 
         }
 
         private void tsbtnEditar_Click(object sender, EventArgs e) {
-            strSql = "update CadastroCliente set Id=@Id, Nome=@Nome, CEP=@CEP, Endereco=@Endereco, Bairro=@Bairro, Numero=@Numero, Complemento=@Complemento, Telefone=@Telefone, Email=@Email, Estado=@Estado, Cidade=@Cidade, CarteiraBTC=@CarteiraBTC where Id=@txtBuscar";
+            strSql = "update dbo.userRegister set nome=@nome, cep=@cep, endereco=@endereco, bairro=@bairro, numero=@numero, complemento=@complemento, telefone=@telefone, email=@email, estado=@estado, cidade=@cidade, carteiraBTC=@carteiraBTC where id=@txtBuscar";
             sqlConnection = new SqlConnection(strConnection);
             SqlCommand command = new SqlCommand(strSql, sqlConnection);
 
             command.Parameters.Add("@txtBuscar", SqlDbType.Int).Value = tstxtBuscar.Text;
 
-            command.Parameters.Add("@Id", SqlDbType.Int).Value = txtId.Text;
-            command.Parameters.Add("@Nome", SqlDbType.VarChar).Value = txtNome.Text;
-            command.Parameters.Add("@CEP", SqlDbType.VarChar).Value = mtxtCep.Text;
-            command.Parameters.Add("@Endereco", SqlDbType.VarChar).Value = txtEndereco.Text;
-            command.Parameters.Add("@Bairro", SqlDbType.VarChar).Value = txtBairro.Text;
-            command.Parameters.Add("@Numero", SqlDbType.VarChar).Value = txtNumero.Text;
-            command.Parameters.Add("@Complemento", SqlDbType.VarChar).Value = txtComplemento.Text;
-            command.Parameters.Add("@Telefone", SqlDbType.VarChar).Value = mtxtTelefone.Text;
-            command.Parameters.Add("@Email", SqlDbType.VarChar).Value = txtEmail.Text;
-            command.Parameters.Add("@Estado", SqlDbType.VarChar).Value = txtEstado.Text;
-            command.Parameters.Add("@Cidade", SqlDbType.VarChar).Value = txtCidade.Text;
-            command.Parameters.Add("@CarteiraBTC", SqlDbType.VarChar).Value = txtCarteira.Text;
+            //command.Parameters.Add("@id", SqlDbType.Int).Value = txtId.Text;
+            command.Parameters.Add("@nome", SqlDbType.VarChar).Value = txtNome.Text;
+            command.Parameters.Add("@cep", SqlDbType.VarChar).Value = mtxtCep.Text;
+            command.Parameters.Add("@endereco", SqlDbType.VarChar).Value = txtEndereco.Text;
+            command.Parameters.Add("@bairro", SqlDbType.VarChar).Value = txtBairro.Text;
+            command.Parameters.Add("@numero", SqlDbType.VarChar).Value = txtNumero.Text;
+            command.Parameters.Add("@complemento", SqlDbType.VarChar).Value = txtComplemento.Text;
+            command.Parameters.Add("@telefone", SqlDbType.VarChar).Value = mtxtTelefone.Text;
+            command.Parameters.Add("@email", SqlDbType.VarChar).Value = txtEmail.Text;
+            command.Parameters.Add("@estado", SqlDbType.VarChar).Value = txtEstado.Text;
+            command.Parameters.Add("@cidade", SqlDbType.VarChar).Value = txtCidade.Text;
+            command.Parameters.Add("@carteiraBTC", SqlDbType.VarChar).Value = txtCarteira.Text;
 
             try {
                 sqlConnection.Open();
@@ -178,10 +178,10 @@ namespace ProjetoPimBlockChain {
             if (MessageBox.Show("Deseja excluir definitivamente este cadastro?", "Cuidado", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) == DialogResult.No)
                 MessageBox.Show("Operação Cancelada!");
             else {
-                strSql = "delete from CadastroCliente where Id=@Id";
+                strSql = "delete from dbo.userRegister where id=@id";
                 sqlConnection = new SqlConnection(strConnection);
                 SqlCommand command = new SqlCommand(strSql, sqlConnection);
-                command.Parameters.Add("@Id", SqlDbType.Int).Value = tstxtBuscar.Text;
+                command.Parameters.Add("@id", SqlDbType.Int).Value = tstxtBuscar.Text;
 
                 try {
                     sqlConnection.Open();
@@ -229,7 +229,7 @@ namespace ProjetoPimBlockChain {
         private void tsbtnNovo_Click(object sender, EventArgs e) {
 
             //
-            txtId.Enabled = true;
+            txtId.Enabled = false;
             txtNome.Enabled = true;
             mtxtCep.Enabled = true;
             txtEndereco.Enabled = true;
@@ -259,6 +259,8 @@ namespace ProjetoPimBlockChain {
 
         private void tsbtnCancelar_Click(object sender, EventArgs e) {
 
+            txtId.Enabled = false;
+            txtId.Text = "";
             //valor da caixa de texto
             tstxtBuscar.Text = "";
             txtId.Text = "";
